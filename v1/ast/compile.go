@@ -2081,9 +2081,76 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 
 	var errs Errors
 	var modified bool
+	bodyVars := body.Vars(SafetyCheckVisitorParams)
+	reordered := make(Body, 0, len(body))
+	safe := VarSet{}
+	unsafe := unsafeVars{}
 
-	// Visit comprehension bodies recursively to ensure print statements inside
-	// those bodies only close over variables that are safe.
+	for _, e := range body {
+		for v := range e.Vars(SafetyCheckVisitorParams) {
+			if globals.Contains(v) {
+				safe.Add(v)
+			} else {
+				unsafe.Add(e, v)
+			}
+		}
+	}
+
+	for {
+		n := len(reordered)
+		// Visit comprehension bodies recursively to ensure print statements inside
+	    // those bodies only close over variables that are safe.
+		for _, e := range body {
+			if reordered.Contains(e) {
+				continue
+			}
+
+			ovs := outputVarsForExpr(e, getArity, safe)
+
+			vs := unsafeVarsInClosures(e)
+			cv := vs.Intersect(bodyVars).Diff(globals)
+			uv := cv.Diff(outputVarsForBody(reordered, getArity, safe))
+
+			if len(uv) > 0 {
+				if uv.Equal(ovs) { // special case "closure-self"
+					continue
+				}
+				unsafe.Set(e, uv)
+			}
+
+			for v := range unsafe[e] {
+				if ovs.Contains(v) || safe.Contains(v) {
+					delete(unsafe[e], v)
+				}
+			}
+
+			if len(unsafe[e]) == 0 {
+				delete(unsafe, e)
+				reordered.Append(e)
+				safe.Update(ovs) // this expression's outputs are safe
+			}
+		}
+
+		if len(reordered) == n { // fixed point, could not add any expr of body
+			break
+		}
+	}
+
+	// Recursive closuresaftey checks XXX (Unecessary?)
+	//g := globals.Copy()
+	//for i, e := range reordered {
+	//	if i > 0 {
+	//		g.Update(reordered[i-1].Vars(SafetyCheckVisitorParams))
+	//	}
+	//	xform := &bodySafetyTransformer{
+	//		builtins: builtins,
+	//		arity:    getArity,
+	//		current:  e,
+	//		globals:  g,
+	//		unsafe:   unsafe,
+	//	}
+	//	NewGenericVisitor(xform.Visit).Walk(e)
+	//}
 	for i := range body {
 		if ContainsClosures(body[i]) {
 			safe := outputVarsForBody(body[:i], getArity, globals)
@@ -2115,7 +2182,6 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 	}
 
 	for i := range body {
-
 		if !isPrintCall(body[i]) {
 			continue
 		}
