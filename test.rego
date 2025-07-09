@@ -1,0 +1,2 @@
+package test
+allow = true

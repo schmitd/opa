@@ -1,0 +1,358 @@
+make[1]: Entering directory '/home/david/personal-projects/opa/wasm'
+make: '_obj/opa.wasm' is up to date.
+make: '_obj/callgraph.csv' is up to date.
+make[1]: Leaving directory '/home/david/personal-projects/opa/wasm'
+cp wasm/_obj/opa.wasm internal/compiler/wasm/opa/opa.wasm
+cp wasm/_obj/callgraph.csv internal/compiler/wasm/opa/callgraph.csv
+CGO_ENABLED=1 GOFLAGS=""-buildmode=exe"" go generate
+CGO_ENABLED=1 GOFLAGS=""-buildmode=exe"" go test -tags=opa_wasm,slow ./...
+# github.com/open-policy-agent/opa/cmd/internal/exec.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/cmd.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+?   	github.com/open-policy-agent/opa	[no test files]
+ok  	github.com/open-policy-agent/opa/ast	(cached)
+?   	github.com/open-policy-agent/opa/ast/json	[no test files]
+?   	github.com/open-policy-agent/opa/ast/location	[no test files]
+?   	github.com/open-policy-agent/opa/build/generate-cli-docs	[no test files]
+?   	github.com/open-policy-agent/opa/build/generate-man	[no test files]
+ok  	github.com/open-policy-agent/opa/bundle	(cached)
+?   	github.com/open-policy-agent/opa/capabilities	[no test files]
+ok  	github.com/open-policy-agent/opa/cmd	(cached)
+?   	github.com/open-policy-agent/opa/cmd/formats	[no test files]
+ok  	github.com/open-policy-agent/opa/cmd/internal/env	(cached)
+ok  	github.com/open-policy-agent/opa/cmd/internal/exec	(cached)
+ok  	github.com/open-policy-agent/opa/compile	(cached)
+?   	github.com/open-policy-agent/opa/config	[no test files]
+?   	github.com/open-policy-agent/opa/cover	[no test files]
+?   	github.com/open-policy-agent/opa/debug	[no test files]
+?   	github.com/open-policy-agent/opa/dependencies	[no test files]
+?   	github.com/open-policy-agent/opa/download	[no test files]
+?   	github.com/open-policy-agent/opa/features	[no test files]
+?   	github.com/open-policy-agent/opa/features/tracing	[no test files]
+?   	github.com/open-policy-agent/opa/features/wasm	[no test files]
+ok  	github.com/open-policy-agent/opa/format	(cached)
+?   	github.com/open-policy-agent/opa/hooks	[no test files]
+?   	github.com/open-policy-agent/opa/internal/bundle	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/bundle/inspect	(cached)
+?   	github.com/open-policy-agent/opa/internal/cidr/merge	[no test files]
+?   	github.com/open-policy-agent/opa/internal/cmd/genbuiltinmetadata	[no test files]
+?   	github.com/open-policy-agent/opa/internal/cmd/genopacapabilities	[no test files]
+?   	github.com/open-policy-agent/opa/internal/cmd/genversionindex	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/compiler	(cached)
+ok  	github.com/open-policy-agent/opa/internal/compiler/wasm	(cached)
+?   	github.com/open-policy-agent/opa/internal/compiler/wasm/opa	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/config	(cached)
+?   	github.com/open-policy-agent/opa/internal/debug	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/deepcopy	(cached)
+?   	github.com/open-policy-agent/opa/internal/distributedtracing	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/edittree	(cached)
+ok  	github.com/open-policy-agent/opa/internal/edittree/bitvector	(cached)
+?   	github.com/open-policy-agent/opa/internal/file/archive	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/file/url	(cached)
+?   	github.com/open-policy-agent/opa/internal/future	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/gojsonschema	(cached)
+ok  	github.com/open-policy-agent/opa/internal/json/patch	(cached)
+ok  	github.com/open-policy-agent/opa/internal/jwx/buffer	(cached)
+?   	github.com/open-policy-agent/opa/internal/jwx/jwa	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/jwx/jwk	(cached)
+ok  	github.com/open-policy-agent/opa/internal/jwx/jws	(cached)
+ok  	github.com/open-policy-agent/opa/internal/jwx/jws/sign	(cached)
+ok  	github.com/open-policy-agent/opa/internal/jwx/jws/verify	(cached)
+ok  	github.com/open-policy-agent/opa/internal/lcss	(cached)
+ok  	github.com/open-policy-agent/opa/internal/leb128	(cached)
+ok  	github.com/open-policy-agent/opa/internal/logging	(cached)
+ok  	github.com/open-policy-agent/opa/internal/merge	(cached)
+ok  	github.com/open-policy-agent/opa/internal/pathwatcher	(cached)
+ok  	github.com/open-policy-agent/opa/internal/planner	(cached)
+ok  	github.com/open-policy-agent/opa/internal/presentation	(cached)
+ok  	github.com/open-policy-agent/opa/internal/prometheus	(cached)
+ok  	github.com/open-policy-agent/opa/internal/providers/aws	(cached)
+ok  	github.com/open-policy-agent/opa/internal/providers/aws/crypto	(cached)
+ok  	github.com/open-policy-agent/opa/internal/providers/aws/v4	(cached)
+?   	github.com/open-policy-agent/opa/internal/ref	[no test files]
+?   	github.com/open-policy-agent/opa/internal/rego/opa	[no test files]
+# github.com/open-policy-agent/opa/internal/wasm/sdk/internal/wasm.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ok  	github.com/open-policy-agent/opa/internal/report	(cached)
+?   	github.com/open-policy-agent/opa/internal/runtime	[no test files]
+# github.com/open-policy-agent/opa/internal/wasm/sdk/opa/loader/http.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ok  	github.com/open-policy-agent/opa/internal/runtime/init	(cached)
+ok  	github.com/open-policy-agent/opa/internal/semver	(cached)
+?   	github.com/open-policy-agent/opa/internal/storage/mock	[no test files]
+?   	github.com/open-policy-agent/opa/internal/strings	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/strvals	(cached)
+ok  	github.com/open-policy-agent/opa/internal/uuid	(cached)
+?   	github.com/open-policy-agent/opa/internal/version	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/constant	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/wasm/encoding	(cached)
+?   	github.com/open-policy-agent/opa/internal/wasm/instruction	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/module	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/opcode	[no test files]
+# github.com/open-policy-agent/opa/internal/wasm/sdk/opa.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/internal/wasm/sdk/opa/loader/file.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+?   	github.com/open-policy-agent/opa/internal/wasm/sdk/examples/basic	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/sdk/examples/loaders	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/wasm/sdk/internal/wasm	(cached)
+ok  	github.com/open-policy-agent/opa/internal/wasm/sdk/opa	(cached)
+?   	github.com/open-policy-agent/opa/internal/wasm/sdk/opa/capabilities	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/sdk/opa/errors	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/sdk/opa/loader	[no test files]
+ok  	github.com/open-policy-agent/opa/internal/wasm/sdk/opa/loader/file	(cached)
+ok  	github.com/open-policy-agent/opa/internal/wasm/sdk/opa/loader/http	(cached)
+?   	github.com/open-policy-agent/opa/internal/wasm/types	[no test files]
+?   	github.com/open-policy-agent/opa/internal/wasm/util	[no test files]
+?   	github.com/open-policy-agent/opa/ir	[no test files]
+ok  	github.com/open-policy-agent/opa/ir/encoding	(cached)
+?   	github.com/open-policy-agent/opa/keys	[no test files]
+ok  	github.com/open-policy-agent/opa/loader	(cached)
+?   	github.com/open-policy-agent/opa/loader/extension	[no test files]
+?   	github.com/open-policy-agent/opa/loader/filter	[no test files]
+?   	github.com/open-policy-agent/opa/logging	[no test files]
+?   	github.com/open-policy-agent/opa/logging/test	[no test files]
+?   	github.com/open-policy-agent/opa/metrics	[no test files]
+# github.com/open-policy-agent/opa/sdk.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+ok  	github.com/open-policy-agent/opa/plugins	(cached)
+?   	github.com/open-policy-agent/opa/plugins/bundle	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/discovery	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/logs	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/logs/status	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/rest	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/server	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/server/decoding	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/server/encoding	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/server/metrics	[no test files]
+?   	github.com/open-policy-agent/opa/plugins/status	[no test files]
+?   	github.com/open-policy-agent/opa/profiler	[no test files]
+?   	github.com/open-policy-agent/opa/refactor	[no test files]
+ok  	github.com/open-policy-agent/opa/rego	(cached)
+ok  	github.com/open-policy-agent/opa/repl	(cached)
+?   	github.com/open-policy-agent/opa/resolver	[no test files]
+?   	github.com/open-policy-agent/opa/resolver/wasm	[no test files]
+?   	github.com/open-policy-agent/opa/runtime	[no test files]
+?   	github.com/open-policy-agent/opa/schemas	[no test files]
+ok  	github.com/open-policy-agent/opa/sdk	(cached)
+?   	github.com/open-policy-agent/opa/sdk/test	[no test files]
+?   	github.com/open-policy-agent/opa/server	[no test files]
+?   	github.com/open-policy-agent/opa/server/authorizer	[no test files]
+?   	github.com/open-policy-agent/opa/server/handlers	[no test files]
+?   	github.com/open-policy-agent/opa/server/identifier	[no test files]
+?   	github.com/open-policy-agent/opa/server/types	[no test files]
+?   	github.com/open-policy-agent/opa/server/writer	[no test files]
+?   	github.com/open-policy-agent/opa/storage	[no test files]
+?   	github.com/open-policy-agent/opa/storage/disk	[no test files]
+?   	github.com/open-policy-agent/opa/storage/inmem	[no test files]
+?   	github.com/open-policy-agent/opa/storage/inmem/test	[no test files]
+?   	github.com/open-policy-agent/opa/test/authz	[no test files]
+?   	github.com/open-policy-agent/opa/test/cases	[no test files]
+?   	github.com/open-policy-agent/opa/test/e2e	[no test files]
+?   	github.com/open-policy-agent/opa/test/e2e/logs	[no test files]
+ok  	github.com/open-policy-agent/opa/tester	(cached)
+?   	github.com/open-policy-agent/opa/topdown	[no test files]
+?   	github.com/open-policy-agent/opa/topdown/builtins	[no test files]
+?   	github.com/open-policy-agent/opa/topdown/cache	[no test files]
+?   	github.com/open-policy-agent/opa/topdown/copypropagation	[no test files]
+?   	github.com/open-policy-agent/opa/topdown/lineage	[no test files]
+?   	github.com/open-policy-agent/opa/topdown/print	[no test files]
+?   	github.com/open-policy-agent/opa/tracing	[no test files]
+?   	github.com/open-policy-agent/opa/types	[no test files]
+?   	github.com/open-policy-agent/opa/util	[no test files]
+?   	github.com/open-policy-agent/opa/util/decoding	[no test files]
+?   	github.com/open-policy-agent/opa/util/test	[no test files]
+?   	github.com/open-policy-agent/opa/v1	[no test files]
+# github.com/open-policy-agent/opa/v1/plugins/discovery.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/plugins/logs.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/rego.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/repl.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/sdk.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/runtime.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/server.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/authz.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/concurrency.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/diagnostics.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/certrefresh.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/distributedtracing.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/h2c.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/logs/console.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/print.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/shutdown.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/http.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/metrics.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/oci.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/tls.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+# github.com/open-policy-agent/opa/v1/test/e2e/wasm/authz.test
+/usr/bin/ld: warning: x86_64.o: missing .note.GNU-stack section implies executable stack
+/usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+--- FAIL: TestCompilerRewritePrintCallsNestedComprehensions (0.00s)
+    --- FAIL: TestCompilerRewritePrintCallsNestedComprehensions/print_variable_dependent_on_inner_comprehension_withing_nested_set_comprehension_(Issue_#7647) (0.00s)
+panic: 1 error occurred: 4:8: rego_parse_error: unexpected eq token: non-terminated set
+		{k = 1; {v | m := {l | l := k}; v := m}; print(v)}
+		   ^ [recovered]
+	panic: 1 error occurred: 4:8: rego_parse_error: unexpected eq token: non-terminated set
+		{k = 1; {v | m := {l | l := k}; v := m}; print(v)}
+		   ^
+
+goroutine 1589 [running]:
+testing.tRunner.func1.2({0xb5fc00, 0xc00097a840})
+	/usr/local/go/src/testing/testing.go:1734 +0x21c
+testing.tRunner.func1()
+	/usr/local/go/src/testing/testing.go:1737 +0x35e
+panic({0xb5fc00?, 0xc00097a840?})
+	/usr/local/go/src/runtime/panic.go:792 +0x132
+github.com/open-policy-agent/opa/v1/ast.MustParseModuleWithOpts(...)
+	/home/david/personal-projects/opa/v1/ast/parser_ext.go:71
+github.com/open-policy-agent/opa/v1/ast.module({0xc6578f, 0x53}, {0x0, 0x0, 0x54a6cf?})
+	/home/david/personal-projects/opa/v1/ast/compile_test.go:11191 +0x1c5
+github.com/open-policy-agent/opa/v1/ast.TestCompilerRewritePrintCallsNestedComprehensions.func1(0xc000a896c0)
+	/home/david/personal-projects/opa/v1/ast/compile_test.go:7552 +0xb9
+testing.tRunner(0xc000a896c0, 0xc0005cb500)
+	/usr/local/go/src/testing/testing.go:1792 +0xf4
+created by testing.(*T).Run in goroutine 1588
+	/usr/local/go/src/testing/testing.go:1851 +0x413
+FAIL	github.com/open-policy-agent/opa/v1/ast	0.859s
+ok  	github.com/open-policy-agent/opa/v1/ast/internal/scanner	(cached)
+?   	github.com/open-policy-agent/opa/v1/ast/internal/tokens	[no test files]
+?   	github.com/open-policy-agent/opa/v1/ast/json	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/ast/location	(cached)
+ok  	github.com/open-policy-agent/opa/v1/ast/oracle	(cached)
+ok  	github.com/open-policy-agent/opa/v1/bundle	(cached)
+ok  	github.com/open-policy-agent/opa/v1/capabilities	(cached)
+ok  	github.com/open-policy-agent/opa/v1/compile	(cached)
+ok  	github.com/open-policy-agent/opa/v1/config	(cached)
+ok  	github.com/open-policy-agent/opa/v1/cover	(cached)
+ok  	github.com/open-policy-agent/opa/v1/debug	(cached)
+ok  	github.com/open-policy-agent/opa/v1/dependencies	(cached)
+ok  	github.com/open-policy-agent/opa/v1/download	(cached)
+?   	github.com/open-policy-agent/opa/v1/features/tracing	[no test files]
+?   	github.com/open-policy-agent/opa/v1/features/wasm	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/format	(cached)
+?   	github.com/open-policy-agent/opa/v1/hooks	[no test files]
+?   	github.com/open-policy-agent/opa/v1/ir	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/ir/encoding	(cached)
+ok  	github.com/open-policy-agent/opa/v1/keys	(cached)
+ok  	github.com/open-policy-agent/opa/v1/loader	(cached)
+ok  	github.com/open-policy-agent/opa/v1/loader/extension	(cached)
+?   	github.com/open-policy-agent/opa/v1/loader/filter	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/logging	(cached)
+?   	github.com/open-policy-agent/opa/v1/logging/test	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/metrics	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/bundle	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/discovery	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/logs	(cached)
+?   	github.com/open-policy-agent/opa/v1/plugins/logs/status	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/plugins/rest	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/server/decoding	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/server/encoding	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/server/metrics	(cached)
+ok  	github.com/open-policy-agent/opa/v1/plugins/status	(cached)
+ok  	github.com/open-policy-agent/opa/v1/profiler	(cached)
+ok  	github.com/open-policy-agent/opa/v1/refactor	(cached)
+ok  	github.com/open-policy-agent/opa/v1/rego	(cached)
+ok  	github.com/open-policy-agent/opa/v1/repl	(cached)
+?   	github.com/open-policy-agent/opa/v1/resolver	[no test files]
+?   	github.com/open-policy-agent/opa/v1/resolver/wasm	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/runtime	(cached)
+ok  	github.com/open-policy-agent/opa/v1/schemas	(cached)
+ok  	github.com/open-policy-agent/opa/v1/sdk	(cached)
+?   	github.com/open-policy-agent/opa/v1/sdk/test	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/server	(cached)
+ok  	github.com/open-policy-agent/opa/v1/server/authorizer	(cached)
+ok  	github.com/open-policy-agent/opa/v1/server/handlers	(cached)
+ok  	github.com/open-policy-agent/opa/v1/server/identifier	(cached)
+?   	github.com/open-policy-agent/opa/v1/server/types	[no test files]
+?   	github.com/open-policy-agent/opa/v1/server/writer	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/storage	(cached)
+ok  	github.com/open-policy-agent/opa/v1/storage/disk	(cached)
+ok  	github.com/open-policy-agent/opa/v1/storage/inmem	(cached)
+?   	github.com/open-policy-agent/opa/v1/storage/inmem/test	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/storage/internal/errors	(cached) [no tests to run]
+?   	github.com/open-policy-agent/opa/v1/storage/internal/ptr	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/test/authz	(cached)
+?   	github.com/open-policy-agent/opa/v1/test/cases	[no test files]
+?   	github.com/open-policy-agent/opa/v1/test/cases/internal/fmtcases	[no test files]
+?   	github.com/open-policy-agent/opa/v1/test/e2e	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/authz	(cached) [no tests to run]
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/certrefresh	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/concurrency	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/diagnostics	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/distributedtracing	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/h2c	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/http	(cached)
+?   	github.com/open-policy-agent/opa/v1/test/e2e/logs	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/logs/console	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/metrics	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/oci	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/print	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/shutdown	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/tls	(cached)
+ok  	github.com/open-policy-agent/opa/v1/test/e2e/wasm/authz	(cached) [no tests to run]
+ok  	github.com/open-policy-agent/opa/v1/test/scheduler	(cached)
+?   	github.com/open-policy-agent/opa/v1/test/wasm/cmd/wasm-rego-testgen	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/tester	(cached)
+ok  	github.com/open-policy-agent/opa/v1/topdown	(cached)
+?   	github.com/open-policy-agent/opa/v1/topdown/builtins	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/topdown/cache	(cached)
+ok  	github.com/open-policy-agent/opa/v1/topdown/copypropagation	(cached)
+ok  	github.com/open-policy-agent/opa/v1/topdown/lineage	(cached)
+?   	github.com/open-policy-agent/opa/v1/topdown/print	[no test files]
+?   	github.com/open-policy-agent/opa/v1/tracing	[no test files]
+ok  	github.com/open-policy-agent/opa/v1/types	(cached)
+ok  	github.com/open-policy-agent/opa/v1/util	(cached)
+?   	github.com/open-policy-agent/opa/v1/util/decoding	[no test files]
+?   	github.com/open-policy-agent/opa/v1/util/test	[no test files]
+?   	github.com/open-policy-agent/opa/v1/version	[no test files]
+?   	github.com/open-policy-agent/opa/version	[no test files]
+FAIL
+make: *** [Makefile:129: go-test] Error 1

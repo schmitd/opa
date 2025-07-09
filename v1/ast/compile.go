@@ -2136,14 +2136,14 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		}
 	}
 
-	// Recursive closuresaftey checks XXX (Unecessary?)
+	// Recursive closuresaftey checks XXX (Unecessary? Var visitor enough?)
 	//g := globals.Copy()
 	//for i, e := range reordered {
 	//	if i > 0 {
 	//		g.Update(reordered[i-1].Vars(SafetyCheckVisitorParams))
 	//	}
 	//	xform := &bodySafetyTransformer{
-	//		builtins: builtins,
+	//		builtins: nil,
 	//		arity:    getArity,
 	//		current:  e,
 	//		globals:  g,
@@ -2151,11 +2151,11 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 	//	}
 	//	NewGenericVisitor(xform.Visit).Walk(e)
 	//}
-	for i := range body {
-		if ContainsClosures(body[i]) {
-			safe := outputVarsForBody(body[:i], getArity, globals)
-			safe.Update(globals)
-			WalkClosures(body[i], func(x any) bool {
+
+	// XXX can be be more efficent now that we use fixed point iteration method?
+	for i := range reordered {
+		if ContainsClosures(reordered[i]) {
+			WalkClosures(reordered[i], func(x any) bool {
 				var modrec bool
 				var errsrec Errors
 				switch x := x.(type) {
@@ -2181,17 +2181,17 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		}
 	}
 
-	for i := range body {
-		if !isPrintCall(body[i]) {
+	for i := range reordered {
+		if !isPrintCall(reordered[i]) {
 			continue
 		}
 
 		modified = true
 
 		var errs Errors
-		safe := outputVarsForBody(body[:i], getArity, globals)
+		//safe := outputVarsForBody(reordered[:i], getArity, globals)
 		safe.Update(globals)
-		args := body[i].Operands()
+		args := reordered[i].Operands()
 
 		for j := range args {
 			vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
@@ -2214,10 +2214,10 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 			arr = arr.Append(SetComprehensionTerm(x, NewBody(capture)).SetLocation(args[j].Loc()))
 		}
 
-		body.Set(NewExpr([]*Term{
-			NewTerm(InternalPrint.Ref()).SetLocation(body[i].Loc()),
-			NewTerm(arr).SetLocation(body[i].Loc()),
-		}).SetLocation(body[i].Loc()), i)
+		reordered.Set(NewExpr([]*Term{
+			NewTerm(InternalPrint.Ref()).SetLocation(reordered[i].Loc()),
+			NewTerm(arr).SetLocation(reordered[i].Loc()),
+		}).SetLocation(reordered[i].Loc()), i)
 	}
 
 	return modified, nil

@@ -7526,6 +7526,43 @@ func TestCompilerRewritePrintCalls(t *testing.T) {
 	}
 }
 
+func TestCompilerRewritePrintCallsNestedComprehensions(t *testing.T) {
+	cases := []struct {
+		note   string
+		module string
+		exp    string
+	}{
+		{
+			note: "print variable dependent on inner comprehension withing nested set comprehension (Issue #7647)",
+			module: `package test
+
+			p if {
+				k = 1
+				{v | m := {l | l := k}; v := m; print(v)}
+			}`,
+			exp: `package test
+			
+			p = true if { k = 1; { __local1__ | __local1__ = {__local0__ | __local0__ = k}}; __local2__ = __local1__; internal.print([__local2__]) }`,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.note, func(t *testing.T) {
+			c := NewCompiler().WithEnablePrintStatements(true)
+			c.Compile(map[string]*Module{
+				"test.rego": module(tc.module),
+			})
+			if c.Failed() {
+				t.Fatal(c.Errors)
+			}
+			exp := module(tc.exp)
+			if !exp.Equal(c.Modules["test.rego"]) {
+				t.Fatalf("Expected:\n\n%v\n\nGot:\n\n%v", exp, c.Modules["test.rego"])
+			}
+		})
+	}
+}
+
 func TestRewritePrintCallsWithElseImplicitArgs(t *testing.T) {
 
 	mod := `package test
