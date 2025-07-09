@@ -2181,7 +2181,8 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		}
 	}
 
-	// Find the original print calls in the body and rewrite them
+	// Find print calls in the original body and rewrite them
+	// Use the reordered slice to compute proper safety information
 	for i := range body {
 		if !isPrintCall(body[i]) {
 			continue
@@ -2190,14 +2191,30 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		modified = true
 
 		var errs Errors
-		//safe := outputVarsForBody(reordered[:i], getArity, globals)
-		safe.Update(globals)
+		// Find the position of this expression in the reordered slice for safety analysis
+		reorderedPos := -1
+		for j := range reordered {
+			if body[i] == reordered[j] {
+				reorderedPos = j
+				break
+			}
+		}
+		
+		var safeAtPosition VarSet
+		if reorderedPos >= 0 {
+			// Use the reordered position for safety analysis
+			safeAtPosition = outputVarsForBody(reordered[:reorderedPos], getArity, globals)
+		} else {
+			// Fallback to original position if not found in reordered
+			safeAtPosition = outputVarsForBody(body[:i], getArity, globals)
+		}
+		safeAtPosition.Update(globals)
 		args := body[i].Operands()
 
 		for j := range args {
 			vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
 			vis.Walk(args[j])
-			unsafe := vis.Vars().Diff(safe)
+			unsafe := vis.Vars().Diff(safeAtPosition)
 			for _, v := range unsafe.Sorted() {
 				errs = append(errs, NewError(CompileErr, args[j].Loc(), "var %v is undeclared", v))
 			}
