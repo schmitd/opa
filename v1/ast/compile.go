@@ -2136,22 +2136,6 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		}
 	}
 
-	// Recursive closuresaftey checks XXX (Unecessary? Var visitor enough?)
-	//g := globals.Copy()
-	//for i, e := range reordered {
-	//	if i > 0 {
-	//		g.Update(reordered[i-1].Vars(SafetyCheckVisitorParams))
-	//	}
-	//	xform := &bodySafetyTransformer{
-	//		builtins: nil,
-	//		arity:    getArity,
-	//		current:  e,
-	//		globals:  g,
-	//		unsafe:   unsafe,
-	//	}
-	//	NewGenericVisitor(xform.Visit).Walk(e)
-	//}
-
 	// XXX can be be more efficent now that we use fixed point iteration method?
 	for i := range reordered {
 		if ContainsClosures(reordered[i]) {
@@ -2190,18 +2174,18 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		modified = true
 
 		var errs Errors
-		//safe := outputVarsForBody(reordered[:i], getArity, globals)
-		safe.Update(globals)
 		args := body[i].Operands()
 
-		for j := range args {
-			vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
-			vis.Walk(args[j])
-			unsafe := vis.Vars().Diff(safe)
-			for _, v := range unsafe.Sorted() {
-				errs = append(errs, NewError(CompileErr, args[j].Loc(), "var %v is undeclared", v))
-			}
-		}
+		println(unsafe)
+
+		//for j := range args {
+		//	vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
+		//	vis.Walk(args[j])
+		//	unsafe := vis.Vars().Diff(safe)
+		//	for _, v := range unsafe.Sorted() {
+		//		errs = append(errs, NewError(CompileErr, args[j].Loc(), "var %v is undeclared", v))
+		//	}
+		//}
 
 		if len(errs) > 0 {
 			return false, errs
