@@ -7542,7 +7542,7 @@ func TestCompilerRewritePrintCallsNestedComprehensions(t *testing.T) {
 			}`,
 			exp: `package test
 			
-			p = true if { k = 1; { __local1__ | __local1__ = {__local0__ | __local0__ = k}; __local2__ = __local1__; internal.print([__local2__])} }`,
+			p = true if { k = 1; { __local1__ | __local1__ = {__local0__ | __local0__ = k}}; __local2__ = __local1__; internal.print([__local2__]) }`,
 		},
 	}
 
