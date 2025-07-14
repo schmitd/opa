@@ -2167,23 +2167,11 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 	}
 
 	
-
-	
-
-	// Find the original print calls in the body and rewrite them
 	for i := range reordered {
-		if !isPrintCall(reordered[i]) {
-			continue
-		}
-
-		modified = true
-
-		var errs Errors
+        var errs Errors
 		safe := outputVarsForBody(reordered[:i], getArity, globals)
 		safe.Update(globals)
 		args := reordered[i].Operands()
-
-
 		for j := range args {
 			vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
 			vis.Walk(args[j])
@@ -2192,10 +2180,23 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 				errs = append(errs, NewError(CompileErr, args[j].Loc(), "var %v is undeclared", v))
 			}
 		}
-
+		
 		if len(errs) > 0 {
 			return false, errs
 		}
+	}
+	
+
+	// Find the original print calls in the body and rewrite them
+	for i := range body {
+		if !isPrintCall(body[i]) {
+			continue
+		}
+
+		modified = true
+		args := body[i].Operands()
+
+		
 
 		arr := NewArray()
 
@@ -2205,14 +2206,14 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 			arr = arr.Append(SetComprehensionTerm(x, NewBody(capture)).SetLocation(args[j].Loc()))
 		}
 
-		reordered.Set(NewExpr([]*Term{
-			NewTerm(InternalPrint.Ref()).SetLocation(reordered[i].Loc()),
-			NewTerm(arr).SetLocation(reordered[i].Loc()),
-		}).SetLocation(reordered[i].Loc()), i)
+		body.Set(NewExpr([]*Term{
+			NewTerm(InternalPrint.Ref()).SetLocation(body[i].Loc()),
+			NewTerm(arr).SetLocation(body[i].Loc()),
+		}).SetLocation(body[i].Loc()), i)
 	}
 
-	body = body[:0] 
-	body = append(body, reordered...)
+	//body = body[:0] 
+	//body = append(body, reordered...)
 	return modified, nil
 }
 
