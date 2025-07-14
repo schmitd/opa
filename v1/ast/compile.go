@@ -2081,65 +2081,66 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 
 	var errs Errors
 	var modified bool
-	bodyVars := body.Vars(SafetyCheckVisitorParams)
 	reordered := make(Body, 0, len(body))
-	safe := VarSet{}
-	unsafe := unsafeVars{}
-
-	for _, e := range body {
-		for v := range e.Vars(SafetyCheckVisitorParams) {
-			if globals.Contains(v) {
-				safe.Add(v)
-			} else {
-				unsafe.Add(e, v)
-			}
-		}
-	}
-
-	for {
-		n := len(reordered)
-		// Visit comprehension bodies recursively to ensure print statements inside
-	    // those bodies only close over variables that are safe.
-		for _, e := range body {
-			if reordered.Contains(e) {
-				continue
-			}
-
-			ovs := outputVarsForExpr(e, getArity, safe)
-
-			vs := unsafeVarsInClosures(e)
-			cv := vs.Intersect(bodyVars).Diff(globals)
-			uv := cv.Diff(outputVarsForBody(reordered, getArity, safe))
-
-			if len(uv) > 0 {
-				if uv.Equal(ovs) { // special case "closure-self"
-					continue
-				}
-				unsafe.Set(e, uv)
-			}
-
-			for v := range unsafe[e] {
-				if ovs.Contains(v) || safe.Contains(v) {
-					delete(unsafe[e], v)
-				}
-			}
-
-			if len(unsafe[e]) == 0 {
-				delete(unsafe, e)
-				reordered.Append(e)
-				safe.Update(ovs) // this expression's outputs are safe
-			}
-		}
-
-		if len(reordered) == n { // fixed point, could not add any expr of body
-			break
-		}
-	}
 
 	// XXX can be be more efficent now that we use fixed point iteration method?
-	for i := range reordered {
-		if ContainsClosures(reordered[i]) {
-			WalkClosures(reordered[i], func(x any) bool {
+	for i := range body {
+		if ContainsClosures(body[i]) {
+			WalkClosures(body[i], func(x any) bool {
+				// XXX Factor below out to a function later
+				bodyVars := body.Vars(SafetyCheckVisitorParams)
+		        
+		        safe := VarSet{}
+		        unsafe := unsafeVars{}
+				for _, e := range body {
+					for v := range e.Vars(SafetyCheckVisitorParams) {
+						if globals.Contains(v) {
+							safe.Add(v)
+						} else {
+							unsafe.Add(e, v)
+						}
+					}
+				}
+
+				for {
+					n := len(reordered)
+					// Visit comprehension bodies recursively to ensure print statements inside
+				    // those bodies only close over variables that are safe.
+					for _, e := range body {
+						if reordered.Contains(e) {
+							continue
+						}
+					
+						ovs := outputVarsForExpr(e, getArity, safe)
+					
+						vs := unsafeVarsInClosures(e)
+						cv := vs.Intersect(bodyVars).Diff(globals)
+						uv := cv.Diff(outputVarsForBody(reordered, getArity, safe))
+					
+						if len(uv) > 0 {
+							if uv.Equal(ovs) { // special case "closure-self"
+								continue
+							}
+							unsafe.Set(e, uv)
+						}
+					
+						for v := range unsafe[e] {
+							if ovs.Contains(v) || safe.Contains(v) {
+								delete(unsafe[e], v)
+							}
+						}
+					
+						if len(unsafe[e]) == 0 {
+							delete(unsafe, e)
+							reordered.Append(e)
+							safe.Update(ovs) // this expression's outputs are safe
+						}
+					}
+				
+					if len(reordered) == n { // fixed point, could not add any expr of body
+						break
+					}
+				} // XXX End of factorable portion (see last XXXcomment)
 				var modrec bool
 				var errsrec Errors
 				switch x := x.(type) {
@@ -2165,27 +2166,32 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		}
 	}
 
+	
+
+	
+
 	// Find the original print calls in the body and rewrite them
-	for i := range body {
-		if !isPrintCall(body[i]) {
+	for i := range reordered {
+		if !isPrintCall(reordered[i]) {
 			continue
 		}
 
 		modified = true
 
 		var errs Errors
-		args := body[i].Operands()
+		safe := outputVarsForBody(reordered[:i], getArity, globals)
+		safe.Update(globals)
+		args := reordered[i].Operands()
 
-		println(unsafe)
 
-		//for j := range args {
-		//	vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
-		//	vis.Walk(args[j])
-		//	unsafe := vis.Vars().Diff(safe)
-		//	for _, v := range unsafe.Sorted() {
-		//		errs = append(errs, NewError(CompileErr, args[j].Loc(), "var %v is undeclared", v))
-		//	}
-		//}
+		for j := range args {
+			vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
+			vis.Walk(args[j])
+			unsafe := vis.Vars().Diff(safe)
+			for _, v := range unsafe.Sorted() {
+				errs = append(errs, NewError(CompileErr, args[j].Loc(), "var %v is undeclared", v))
+			}
+		}
 
 		if len(errs) > 0 {
 			return false, errs
@@ -2199,12 +2205,14 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 			arr = arr.Append(SetComprehensionTerm(x, NewBody(capture)).SetLocation(args[j].Loc()))
 		}
 
-		body.Set(NewExpr([]*Term{
-			NewTerm(InternalPrint.Ref()).SetLocation(body[i].Loc()),
-			NewTerm(arr).SetLocation(body[i].Loc()),
-		}).SetLocation(body[i].Loc()), i)
+		reordered.Set(NewExpr([]*Term{
+			NewTerm(InternalPrint.Ref()).SetLocation(reordered[i].Loc()),
+			NewTerm(arr).SetLocation(reordered[i].Loc()),
+		}).SetLocation(reordered[i].Loc()), i)
 	}
 
+	body = body[:0] 
+	body = append(body, reordered...)
 	return modified, nil
 }
 
