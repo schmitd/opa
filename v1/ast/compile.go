@@ -2125,6 +2125,19 @@ func rewritePrintCalls(gen *localVarGenerator, getArity func(Ref) int, globals V
 		var errs Errors
 		safe := outputVarsForBody(body[:i], getArity, globals)
 		safe.Update(globals)
+		
+		// Include wildcard and generated variables in the safe set for print call safety checking
+		// This ensures that variables generated from wildcards (like __localq2__) are considered safe
+		for k := range body[:i] {
+			vis := NewVarVisitor().WithParams(SafetyCheckVisitorParams)
+			vis.Walk(body[k])
+			for v := range vis.Vars() {
+				if v.IsGenerated() {
+					safe.Add(v)
+				}
+			}
+		}
+		
 		args := body[i].Operands()
 
 		for j := range args {
