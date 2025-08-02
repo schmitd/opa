@@ -7491,6 +7491,21 @@ func TestCompilerRewritePrintCalls(t *testing.T) {
 			`,
 		},
 		{
+			note: "print call of vars inside comprehension containing key value",
+			module: `package test
+			f(_) = {"a":[1,2,3],"b":[4,5,6],"c":[7,8,9]}
+			p = v if [ v | m := {l | l := f(true)[k]}[_]; v := m[_]; print(v)]
+			`,
+			exp: `package test
+			f(__local0__) = {"a":[1,2,3],"b":[4,5,6],"c":[7,8,9]} if { true }
+			p = __local2__ if {[__local2__ |
+				__local1__ = {__local0__ | __local0__ = data.test.f(true, __local3__)}[_]
+				__local2__ = __local1__[_]
+				internal.print([__local0__])]
+
+			`,
+		},
+		{
 			note: "print call of vars altered with 'with' and call",
 			module: `package test
 			q = input

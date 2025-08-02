@@ -1,0 +1,3 @@
+package test
+f(_) = {"a":[1,2,3],"b":[4,5,6],"c":[7,8,9]}
+p = v if [ v | m := {l | l := f(true)[k]}[_]; v := m[_]; print(v)]
