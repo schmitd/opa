@@ -7497,12 +7497,14 @@ func TestCompilerRewritePrintCalls(t *testing.T) {
 			p := [ v | m := {l | l := f(true)[k]}[_]; v := m[_]; print(v)]
 			`,
 			exp: `package test
-			f(__local0__) = {"a":[1,2,3],"b":[4,5,6],"c":[7,8,9]} if { true }
-			p = __local2__ if {[__local2__ |
-				__local1__ = {__local0__ | __local0__ = data.test.f(true, __local3__)}[_]
-				__local2__ = __local1__[_]
-				internal.print([__local8__])]
-
+			f(__local0__) = {"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]} if { true }
+			p := __local7__ if { 
+				true; __local7__ = [__local3__ | __local6__ = {__local1__ | data.test.f(true, __local5__); __local1__ = __local5__[k]}
+				__local2__ = __local6__[_]; __local3__ = __local2__[_]
+				__local8__ = {__local4__ | __local4__ = __local3__}
+				internal.print([__local8__])
+				]
+			}
 			`,
 		},
 		{
